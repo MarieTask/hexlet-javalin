@@ -1,25 +1,17 @@
-<!-- src/main/jte/courses/index.jte -->
-@import org.example.hexlet.dto.courses.CoursesPage
-@import org.example.hexlet.data.DataCourses
-@import org.example.hexlet.model.Course
-
-@param CoursesPage page
-
-<html>
+<!-- Изменения HTML в шаблоне не требуют перезапуска сервера -->
+<!doctype html>
+<html lang="en">
     <head>
-        <title>Хекслет</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Hexlet!</title>
     </head>
     <body>
-        <h1>${page.getHeader()}</h1>
-        @if(page.getCourses().isEmpty())
-            <p>Пока не добавлено ни одного курса</p>
-        @else
-            @for(var course : page.getCourses())
-                <div>
-                    <h2><a href="/courses/${course.getId()}">${course.getName()}</a></h2>
-                    <p>${course.getDescription()}</p>
-                </div>
-            @endfor
-        @endif
+    <div class="col-lg-8 mx-auto p-4 py-md-5">
+        <main>
+        <h1 class="text-body-emphasis">Привет, Хекслет!</h1>
+        <p>Javalin + jte</p>
+        </main>
+    </div>
     </body>
 </html>

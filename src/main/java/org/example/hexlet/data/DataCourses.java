@@ -32,8 +32,8 @@ public class DataCourses {
             var id = ids.get(i);
             var name = faker.name().name();
             var description = faker.name().lastName();
-            Course user = new Course(id, name, description);
-            courses.add(user);
+            Course course = new Course(name, description);
+            courses.add(course);
         }
         return courses;
     }

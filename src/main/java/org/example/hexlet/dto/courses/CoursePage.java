@@ -11,4 +11,3 @@ import lombok.Getter;
 public class CoursePage {
     private Course course;
 }
-

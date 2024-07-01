@@ -1,4 +1,5 @@
-package org.example.hexlet.data;
+package org.example.hexlet;
+
 
 import net.datafaker.Faker;
 import org.example.hexlet.model.Course;
@@ -11,8 +12,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class DataCourses {
-    private static final int ITEMS_COUNT = 30;
+public class Data {
+    private static final long ITEMS_COUNT = 30;
 
     private static long idCounter = ITEMS_COUNT;
 

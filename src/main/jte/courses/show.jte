@@ -15,7 +15,7 @@
     <body>
         <div class="col-lg-8 mx-auto p-4 py-md-5">
             <table>
-                <caption align="top">Courses</caption>
+                <caption align="top">Course</caption>
                 <thead>
                     <tr>
                         <th>Name</th>

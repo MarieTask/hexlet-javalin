@@ -9,6 +9,7 @@ import org.example.hexlet.model.Course;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -25,10 +26,9 @@ public class HelloWorld {
         app.get("/courses/{id}", ctx -> {
             var id = Long.parseLong(ctx.pathParam("id"));
 
-            Course course = COURSES.stream()
+            Optional<Course> course = COURSES.stream()
                     .filter(x -> Objects.equals(id, x.getId()))
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst();
 
             if (course == null) {
                 throw new NotFoundResponse("Course not found");

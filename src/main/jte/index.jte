@@ -1,19 +1,8 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-              crossorigin="anonymous">
-        <title>Hello Hexlet!</title>
-    </head>
-    <body>
-        <div class="mx-auto p-4 py-md-5">
-            <main>
-            <h1 class="text-body-emphasis">Привет, Хекслет!</h1>
-            <p>Javalin + jte</p>
-            </main>
-        </div>
-    </body>
-</html>
+@template.layout.page(
+    content = @`
+        <h2>Hi there!</h2>
+    `,
+    footer = @`
+        <p><a href="https://github.com/MarieTask">Welcome to my GitHub profile!</a></p>
+    `
+)

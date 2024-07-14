@@ -1,23 +1,19 @@
-package org.example.hexlet;
+package org.example.hexlet.data;
 
 
 import net.datafaker.Faker;
-import org.example.hexlet.model.Course;
+import org.example.hexlet.model.User;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class Data {
+public class DataUsers {
     private static final long ITEMS_COUNT = 30;
 
     private static long idCounter = ITEMS_COUNT;
 
-    public static List<Course> getCourses() {
+    public static List<User> getUsers() {
         Random random = new Random(123);
         Faker faker = new Faker(new Locale("en"), random);
 
@@ -27,16 +23,18 @@ public class Data {
                 .collect(Collectors.toList());
         Collections.shuffle(ids, random);
 
-        List<Course> courses = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         for (int i = 0; i < ITEMS_COUNT; i++) {
             var id = ids.get(i);
-            var name = faker.name().name();
-            var description = faker.name().lastName();
-            Course course = new Course(name, description);
-            courses.add(course);
+            var firstName = faker.name().firstName();
+            var lastName = faker.name().lastName();
+            var email = faker.internet().emailAddress();
+            User user = new User(id, firstName, lastName, email);
+            users.add(user);
         }
-        return courses;
+
+        return users;
     }
 
     public static long getNextId() {

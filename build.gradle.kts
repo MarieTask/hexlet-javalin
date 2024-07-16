@@ -28,6 +28,8 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.22")
     implementation("org.projectlombok:lombok:1.18.22")
     implementation("net.datafaker:datafaker:2.0.1")
+    implementation("org.apache.commons:commons-text:1.12.0")
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 

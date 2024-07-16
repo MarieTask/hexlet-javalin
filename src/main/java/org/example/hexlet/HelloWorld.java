@@ -3,14 +3,16 @@ package org.example.hexlet;
 import io.javalin.Javalin;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.rendering.template.JavalinJte;
+import org.apache.commons.text.StringEscapeUtils;
 import org.example.hexlet.data.DataCourses;
 import org.example.hexlet.data.DataUsers;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
-import org.example.hexlet.dto.users.UserPage;
 import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +29,10 @@ public class HelloWorld {
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
+        });
+
+        app.before(ctx -> {
+            ctx.contentType("text/html; charset=utf-8");
         });
 
         app.get("/courses/{id}", ctx -> {
@@ -52,15 +58,30 @@ public class HelloWorld {
         });
 
         app.get("/users/{id}", ctx -> {
-            var id = ctx.pathParamAsClass("id", Long.class).get();
+            //var id = ctx.pathParamAsClass("id", Long.class).get();
 
-            User user = USERS.stream()
-                    .filter(u -> id.equals(u.getId()))
-                    .findFirst()
-                    .orElseThrow(() -> new NotFoundResponse("User not found"));
+            //User user = USERS.stream()
+            //        .filter(u -> id.equals(u.getId()))
+            //        .findFirst()
+            //        .orElseThrow(() -> new NotFoundResponse("User not found"));
+            //var id = ctx.pathParam("id");
+            //var escapedId = StringEscapeUtils.escapeHtml4(id);
+            //ctx.contentType("text/html");
+            //ctx.result(escapedId);
 
-            var page = new UserPage(user);
-            ctx.render("users/show.jte", model("page", page));
+            //var page = new UserPage(user);
+            //ctx.render("users/show.jte", model("page", page));
+            var id = ctx.pathParam("id");
+            var escapedId = StringEscapeUtils.escapeHtml4(id);
+            PolicyFactory policy = new HtmlPolicyBuilder()
+                    .allowElements("a")
+                    .allowUrlProtocols("http")
+                    .allowAttributes("href").onElements("a")
+                    .requireRelNofollowOnLinks()
+                    .toFactory();
+            String safeHTML = policy.sanitize(escapedId);
+            ctx.contentType("text/html");
+            ctx.result(safeHTML);
         });
 
         app.get("/users", ctx -> {

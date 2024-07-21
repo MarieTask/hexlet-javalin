@@ -5,8 +5,12 @@
 content = @`
     <body>
     <h1 class="text-body-emphasis">List of Courses</h1>
+    <form action="/courses" method="get">
+        <input type="search" name="term" value="${page.getTerm()}" />
+        <input type="submit" value="Search" />
+    </form>
     @if(page.getCourses().isEmpty())
-        <p>There is no user!</p>
+        <p>There is no course!</p>
     @else
         <table>
             <caption align="top">Courses</caption>

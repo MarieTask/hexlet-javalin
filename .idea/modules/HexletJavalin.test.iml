@@ -13,6 +13,8 @@
     <orderEntry type="library" name="Gradle: gg.jte:jte:3.1.9" level="project" />
     <orderEntry type="library" name="Gradle: org.projectlombok:lombok:1.18.22" level="project" />
     <orderEntry type="library" name="Gradle: net.datafaker:datafaker:2.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-text:1.12.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-jetty-server:11.0.20" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:11.0.20" level="project" />
@@ -22,6 +24,8 @@
     <orderEntry type="library" name="Gradle: gg.jte:jte-runtime:3.1.9" level="project" />
     <orderEntry type="library" name="Gradle: org.yaml:snakeyaml:2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.github.mifmif:generex:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.14.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:19.0" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-webapp:11.0.20" level="project" />

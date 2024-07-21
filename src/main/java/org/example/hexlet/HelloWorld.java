@@ -3,6 +3,7 @@ package org.example.hexlet;
 import io.javalin.Javalin;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.rendering.template.JavalinJte;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.example.hexlet.data.DataCourses;
 import org.example.hexlet.data.DataUsers;
@@ -14,9 +15,7 @@ import org.example.hexlet.model.User;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -52,8 +51,21 @@ public class HelloWorld {
         });
 
         app.get("/courses", ctx -> {
-            var header = "Курсы по программированию";
-            var page = new CoursesPage(COURSES, header);
+            var term = ctx.queryParam("term");
+            List<Course> courses;
+            // Фильтруем, только если была отправлена форма
+            if (term != null) {
+                courses = COURSES.stream()
+                        .filter(x ->
+                                StringUtils.startsWithIgnoreCase(x.getName(), term) || StringUtils.startsWithIgnoreCase(x.getDescription(), term))
+                        .toList();
+                /* Фильтруем курсы по term */
+            } else {
+                courses = COURSES;
+                /* Извлекаем все курсы, которые хотим показать */
+            }
+
+            var page = new CoursesPage(courses, term);
             ctx.render("courses/index.jte", model("page", page));
         });
 

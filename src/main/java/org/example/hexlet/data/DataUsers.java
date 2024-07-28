@@ -30,7 +30,8 @@ public class DataUsers {
             var firstName = faker.name().firstName();
             var lastName = faker.name().lastName();
             var email = faker.internet().emailAddress();
-            User user = new User(id, firstName, lastName, email);
+            var password = faker.internet().password();
+            User user = new User(firstName, lastName, email, password);
             users.add(user);
         }
 

@@ -15,7 +15,9 @@ import org.example.hexlet.model.User;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -28,10 +30,6 @@ public class HelloWorld {
         var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
-        });
-
-        app.before(ctx -> {
-            ctx.contentType("text/html; charset=utf-8");
         });
 
         app.get("/courses/{id}", ctx -> {
@@ -100,6 +98,10 @@ public class HelloWorld {
             var page = new UsersPage(USERS);
             ctx.render("users/index.jte", model("page", page));
 
+        });
+
+        app.get("/users/build", ctx -> {
+            ctx.render("users/build.jte");
         });
 
         app.get("/", ctx -> ctx.render("index.jte"));

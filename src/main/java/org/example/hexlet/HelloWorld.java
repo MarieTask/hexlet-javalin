@@ -3,16 +3,17 @@ package org.example.hexlet;
 import io.javalin.Javalin;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.rendering.template.JavalinJte;
+import io.javalin.validation.ValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.example.hexlet.data.DataCourses;
 import org.example.hexlet.data.DataUsers;
 import org.example.hexlet.dto.courses.CoursePage;
 import org.example.hexlet.dto.courses.CoursesPage;
+import org.example.hexlet.dto.users.BuildUserPage;
 import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
 import org.example.hexlet.repository.UserRepository;
-import org.example.hexlet.util.Security;
 
 import java.util.List;
 import java.util.Objects;
@@ -100,22 +101,30 @@ public class HelloWorld {
             ctx.render("users/index.jte", model("page", page));
         });
 
+        //Расширяем обработчик. Добавляем встроенный механизм валидации Javalin и обработку его исключений
         app.post("/users", ctx -> {
             var firstName = ctx.formParam("firstName");
             var lastName = ctx.formParam("lastName");
             var email = ctx.formParam("email");
-            var password = ctx.formParam("password");
 
-            var user = new User(StringUtils.capitalize(firstName.trim().toLowerCase()),
-                    StringUtils.capitalize(lastName.trim().toLowerCase()),
-                    email.trim().toLowerCase(),
-                    Security.encrypt(password));
+            try {
+                var passwordConfirmation = ctx.formParam("passwordConfirmation");
+                var password = ctx.formParamAsClass("password", String.class)
+                        .check(value -> value.equals(passwordConfirmation), "Пароли не совпадают")
+                        .check(value -> value.length() > 6, "У пароля недостаточная длина")
+                        .get();
+                var user = new User(firstName, lastName, email, password);
                 UserRepository.save(user);
-            ctx.redirect("/users");
+                ctx.redirect("/users");
+            } catch (ValidationException e) {
+                var page = new BuildUserPage(firstName, lastName, email, e.getErrors());
+                ctx.render("users/build.jte", model("page", page));
+            }
         });
 
         app.get("/users/build", ctx -> {
-            ctx.render("users/build.jte");
+            var page = new BuildUserPage();
+            ctx.render("users/build.jte", model("page", page));
         });
 
         return app;

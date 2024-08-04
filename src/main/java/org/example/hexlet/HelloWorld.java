@@ -4,7 +4,6 @@ import io.javalin.Javalin;
 import io.javalin.http.NotFoundResponse;
 import io.javalin.rendering.template.JavalinJte;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.example.hexlet.data.DataCourses;
 import org.example.hexlet.data.DataUsers;
 import org.example.hexlet.dto.courses.CoursePage;
@@ -14,8 +13,6 @@ import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
 import org.example.hexlet.repository.UserRepository;
 import org.example.hexlet.util.Security;
-import org.owasp.html.HtmlPolicyBuilder;
-import org.owasp.html.PolicyFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -71,7 +68,7 @@ public class HelloWorld {
             ctx.render("courses/index.jte", model("page", page));
         });
 
-        app.get("/users/{id}", ctx -> {
+        //app.get("/users/{id}", ctx -> {
             //var id = ctx.pathParamAsClass("id", Long.class).get();
 
             //User user = USERS.stream()
@@ -85,18 +82,18 @@ public class HelloWorld {
 
             //var page = new UserPage(user);
             //ctx.render("users/show.jte", model("page", page));
-            var id = ctx.pathParam("id");
-            var escapedId = StringEscapeUtils.escapeHtml4(id);
-            PolicyFactory policy = new HtmlPolicyBuilder()
-                    .allowElements("a")
-                    .allowUrlProtocols("http")
-                    .allowAttributes("href").onElements("a")
-                    .requireRelNofollowOnLinks()
-                    .toFactory();
-            String safeHTML = policy.sanitize(escapedId);
-            ctx.contentType("text/html");
-            ctx.result(safeHTML);
-        });
+            //var id = ctx.pathParam("id");
+            //var escapedId = StringEscapeUtils.escapeHtml4(id);
+            //PolicyFactory policy = new HtmlPolicyBuilder()
+            //        .allowElements("a")
+            //        .allowUrlProtocols("http")
+            //        .allowAttributes("href").onElements("a")
+            //        .requireRelNofollowOnLinks()
+            //        .toFactory();
+            //String safeHTML = policy.sanitize(escapedId);
+            //ctx.contentType("text/html");
+            //ctx.result(safeHTML);
+        //});
 
         app.get("/users", ctx -> {
             var page = new UsersPage(USERS);

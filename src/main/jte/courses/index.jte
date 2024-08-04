@@ -13,7 +13,6 @@ content = @`
         <p>There is no course!</p>
     @else
         <table>
-            <caption align="top">Courses</caption>
             <thead>
             <tr>
                 <th>Name</th>

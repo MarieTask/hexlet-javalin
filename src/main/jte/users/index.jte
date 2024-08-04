@@ -5,11 +5,15 @@
     content = @`
         <body>
             <h1 class="text-body-emphasis">List of Users</h1>
+
+            <div class="mb-3">
+                <a href="/users/build">Зарегистрировать нового пользователя</a>
+            </div>
+
             @if(page.getUsers().isEmpty())
                 <p>There is no user!</p>
             @else
                 <table>
-                    <caption align="top">Users</caption>
                     <thead>
                         <tr>
                             <th>First name</th>

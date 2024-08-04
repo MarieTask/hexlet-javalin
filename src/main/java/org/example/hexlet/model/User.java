@@ -10,12 +10,11 @@ import lombok.ToString;
 @ToString
 public final class User {
 
-    private long id;
+    private Long id;
     private String firstName;
 
     @ToString.Include
     private String lastName;
-
     private String email;
     private String password;
 

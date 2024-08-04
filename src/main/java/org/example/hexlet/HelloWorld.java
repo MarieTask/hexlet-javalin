@@ -12,6 +12,8 @@ import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
+import org.example.hexlet.repository.UserRepository;
+import org.example.hexlet.util.Security;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
@@ -31,6 +33,8 @@ public class HelloWorld {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte());
         });
+
+        app.get("/", ctx -> ctx.render("index.jte"));
 
         app.get("/courses/{id}", ctx -> {
             var id = Long.parseLong(ctx.pathParam("id"));
@@ -97,14 +101,25 @@ public class HelloWorld {
         app.get("/users", ctx -> {
             var page = new UsersPage(USERS);
             ctx.render("users/index.jte", model("page", page));
+        });
 
+        app.post("/users", ctx -> {
+            var firstName = ctx.formParam("firstName");
+            var lastName = ctx.formParam("lastName");
+            var email = ctx.formParam("email");
+            var password = ctx.formParam("password");
+
+            var user = new User(StringUtils.capitalize(firstName.trim().toLowerCase()),
+                    StringUtils.capitalize(lastName.trim().toLowerCase()),
+                    email.trim().toLowerCase(),
+                    Security.encrypt(password));
+                UserRepository.save(user);
+            ctx.redirect("/users");
         });
 
         app.get("/users/build", ctx -> {
             ctx.render("users/build.jte");
         });
-
-        app.get("/", ctx -> ctx.render("index.jte"));
 
         return app;
     }

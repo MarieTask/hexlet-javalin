@@ -114,6 +114,8 @@ public class HelloWorld {
                         .check(value -> value.length() > 6, "У пароля недостаточная длина")
                         .get();
                 var user = new User(firstName, lastName, email, password);
+                //Сохраняем нового пользователя в текущий репозиторий
+                USERS.add(user);
                 UserRepository.save(user);
                 ctx.redirect("/users");
             } catch (ValidationException e) {

@@ -1,4 +1,6 @@
+@import org.example.hexlet.util.NamedRoutes
 @import org.example.hexlet.dto.users.UsersPage
+@import org.example.hexlet.util.Security
 @param UsersPage page
 
 @template.layout.page(
@@ -25,7 +27,7 @@
                         @for(var user : page.getUsers())
                         <tr>
                             <div>
-                                <td>${user.getFirstName()}</td>
+                                <td><a href="${NamedRoutes.userPath(user.getId())}">${user.getFirstName()}</a></td>
                                 <td>${user.getLastName()}</td>
                                 <td>${user.getEmail()}</td>
                             </div>

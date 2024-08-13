@@ -14,6 +14,7 @@ import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
 import org.example.hexlet.repository.UserRepository;
+import org.example.hexlet.util.NamedRoutes;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class HelloWorld {
 
         app.get("/", ctx -> ctx.render("index.jte"));
 
-        app.get("/courses/{id}", ctx -> {
+        app.get(NamedRoutes.coursePath("{id}"), ctx -> {
             var id = Long.parseLong(ctx.pathParam("id"));
 
             Optional<Course> course = COURSES.stream()
@@ -50,7 +51,7 @@ public class HelloWorld {
             ctx.render("courses/show.jte", model("page", page));
         });
 
-        app.get("/courses", ctx -> {
+        app.get(NamedRoutes.coursesPath(), ctx -> {
             var term = ctx.queryParam("term");
             List<Course> courses;
             // Фильтруем, только если была отправлена форма
@@ -96,13 +97,13 @@ public class HelloWorld {
             //ctx.result(safeHTML);
         //});
 
-        app.get("/users", ctx -> {
+        app.get(NamedRoutes.usersPath(), ctx -> {
             var page = new UsersPage(USERS);
             ctx.render("users/index.jte", model("page", page));
         });
 
         //Расширяем обработчик. Добавляем встроенный механизм валидации Javalin и обработку его исключений
-        app.post("/users", ctx -> {
+        app.post(NamedRoutes.usersPath(), ctx -> {
             var firstName = ctx.formParam("firstName");
             var lastName = ctx.formParam("lastName");
             var email = ctx.formParam("email");
@@ -117,14 +118,14 @@ public class HelloWorld {
                 //Сохраняем нового пользователя в текущий репозиторий
                 USERS.add(user);
                 UserRepository.save(user);
-                ctx.redirect("/users");
+                ctx.redirect(NamedRoutes.usersPath());
             } catch (ValidationException e) {
                 var page = new BuildUserPage(firstName, lastName, email, e.getErrors());
                 ctx.render("users/build.jte", model("page", page));
             }
         });
 
-        app.get("/users/build", ctx -> {
+        app.get(NamedRoutes.buildUserPath(), ctx -> {
             var page = new BuildUserPage();
             ctx.render("users/build.jte", model("page", page));
         });

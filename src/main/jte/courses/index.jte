@@ -7,6 +7,11 @@
 content = @`
     <body>
     <h1 class="text-body-emphasis">List of Courses</h1>
+
+    <div class="mb-3">
+        <a href="/users/build">Добавить новый курс</a>
+    </div>
+
     <form action="/courses" method="get">
         <input type="search" name="term" value="${page.getTerm()}" />
         <input type="submit" value="Search" />

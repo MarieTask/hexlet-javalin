@@ -27,9 +27,9 @@ public class DataUsers {
 
         for (int i = 0; i < ITEMS_COUNT; i++) {
             var id = ids.get(i);
-            var firstName = faker.name().firstName();
-            var lastName = faker.name().lastName();
-            var email = faker.internet().emailAddress();
+            var firstName = faker.name().firstName().trim();
+            var lastName = faker.name().lastName().trim();
+            var email = faker.internet().emailAddress().trim().toLowerCase();
             var password = faker.internet().password();
             User user = new User(firstName, lastName, email, password);
             users.add(user);

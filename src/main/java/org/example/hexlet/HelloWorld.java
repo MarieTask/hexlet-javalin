@@ -1,26 +1,16 @@
 package org.example.hexlet;
 
 import io.javalin.Javalin;
-import io.javalin.http.NotFoundResponse;
 import io.javalin.rendering.template.JavalinJte;
-import io.javalin.validation.ValidationException;
-import org.apache.commons.lang3.StringUtils;
+import org.example.hexlet.controller.CoursesController;
+import org.example.hexlet.controller.UsersController;
 import org.example.hexlet.data.DataCourses;
 import org.example.hexlet.data.DataUsers;
-import org.example.hexlet.dto.courses.CoursePage;
-import org.example.hexlet.dto.courses.CoursesPage;
-import org.example.hexlet.dto.users.BuildUserPage;
-import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.model.User;
-import org.example.hexlet.repository.UserRepository;
 import org.example.hexlet.util.NamedRoutes;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class HelloWorld {
 
@@ -35,7 +25,7 @@ public class HelloWorld {
 
         app.get("/", ctx -> ctx.render("index.jte"));
 
-        app.get(NamedRoutes.coursePath("{id}"), ctx -> {
+        /*app.get(NamedRoutes.coursePath("{id}"), ctx -> {
             var id = Long.parseLong(ctx.pathParam("id"));
 
             Optional<Course> course = COURSES.stream()
@@ -60,43 +50,62 @@ public class HelloWorld {
                         .filter(x ->
                                 StringUtils.startsWithIgnoreCase(x.getName(), term) || StringUtils.startsWithIgnoreCase(x.getDescription(), term))
                         .toList();
-                /* Фильтруем курсы по term */
+                // Фильтруем курсы по term
             } else {
                 courses = COURSES;
-                /* Извлекаем все курсы, которые хотим показать */
+                // Извлекаем все курсы, которые хотим показать
             }
-
             var page = new CoursesPage(courses, term);
             ctx.render("courses/index.jte", model("page", page));
         });
+        */
 
-        //app.get("/users/{id}", ctx -> {
-            //var id = ctx.pathParamAsClass("id", Long.class).get();
+        /*app.get("/users/{id}", ctx -> {
+            var id = ctx.pathParamAsClass("id", Long.class).get();
 
-            //User user = USERS.stream()
-            //        .filter(u -> id.equals(u.getId()))
-            //        .findFirst()
-            //        .orElseThrow(() -> new NotFoundResponse("User not found"));
-            //var id = ctx.pathParam("id");
-            //var escapedId = StringEscapeUtils.escapeHtml4(id);
-            //ctx.contentType("text/html");
-            //ctx.result(escapedId);
+            User user = USERS.stream()
+                    .filter(u -> id.equals(u.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new NotFoundResponse("User not found"));
+            var id = ctx.pathParam("id");
+            var escapedId = StringEscapeUtils.escapeHtml4(id);
+            ctx.contentType("text/html");
+            ctx.result(escapedId);
 
-            //var page = new UserPage(user);
-            //ctx.render("users/show.jte", model("page", page));
-            //var id = ctx.pathParam("id");
-            //var escapedId = StringEscapeUtils.escapeHtml4(id);
-            //PolicyFactory policy = new HtmlPolicyBuilder()
-            //        .allowElements("a")
-            //        .allowUrlProtocols("http")
-            //        .allowAttributes("href").onElements("a")
-            //        .requireRelNofollowOnLinks()
-            //        .toFactory();
-            //String safeHTML = policy.sanitize(escapedId);
-            //ctx.contentType("text/html");
-            //ctx.result(safeHTML);
-        //});
+            var page = new UserPage(user);
+            ctx.render("users/show.jte", model("page", page));
+            var id = ctx.pathParam("id");
+            var escapedId = StringEscapeUtils.escapeHtml4(id);
+            PolicyFactory policy = new HtmlPolicyBuilder()
+                    .allowElements("a")
+                    .allowUrlProtocols("http")
+                    .allowAttributes("href").onElements("a")
+                    .requireRelNofollowOnLinks()
+                    .toFactory();
+            String safeHTML = policy.sanitize(escapedId);
+            ctx.contentType("text/html");
+            ctx.result(safeHTML);
+        });
 
+         */
+
+        app.get(NamedRoutes.usersPath(), UsersController::index);
+        app.get(NamedRoutes.userPath("{id}"), UsersController::show);
+        app.get(NamedRoutes.buildUserPath(), UsersController::build);
+        app.post(NamedRoutes.usersPath(), UsersController::create);
+        app.get(NamedRoutes.editUserPath("{id}"), UsersController::edit);
+        app.patch(NamedRoutes.userPath("{id}"), UsersController::update);
+        app.delete(NamedRoutes.userPath("{id}"), UsersController::destroy);
+
+        app.get(NamedRoutes.coursesPath(), CoursesController::index);
+        app.get(NamedRoutes.coursePath("{id}"), CoursesController::show);
+        app.get(NamedRoutes.buildCoursePath(), CoursesController::build);
+        app.post(NamedRoutes.coursesPath(), CoursesController::create);
+        app.get(NamedRoutes.editCoursePath("{id}"), CoursesController::edit);
+        app.patch(NamedRoutes.coursePath("{id}"), CoursesController::update);
+        app.delete(NamedRoutes.coursePath("{id}"), CoursesController::destroy);
+
+        /*
         app.get(NamedRoutes.usersPath(), ctx -> {
             var page = new UsersPage(USERS);
             ctx.render("users/index.jte", model("page", page));
@@ -125,10 +134,13 @@ public class HelloWorld {
             }
         });
 
+
         app.get(NamedRoutes.buildUserPath(), ctx -> {
             var page = new BuildUserPage();
             ctx.render("users/build.jte", model("page", page));
         });
+
+         */
 
         return app;
     }
